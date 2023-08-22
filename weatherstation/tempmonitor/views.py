@@ -47,8 +47,6 @@ def temperature_data(request):
 def home(request):
     temperatures = [float(reading.temp) for reading in temperatureReading.objects.all()]
     dates = [reading.time for reading in temperatureReading.objects.all()]
-    logger.debug(f'Temperatures: {temperatures}')
-    logger.debug(f'Dates: {dates}')
     #convert dates to strings
     #dates = [date.strftime("%m/%d/%Y") for date in dates]
 
