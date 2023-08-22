@@ -13,16 +13,12 @@ def webhook_handler(request):
     if request.method == 'POST':
         temperature = request.POST.get('data')
         time = request.POST.get('published_at')
-        logger.debug(f'Temperature received: {temperature}, time: {time}')
         #save temperatureReading object
         temperature_entry = temperatureReading(temp=temperature)
         temperature_entry.save()
-        logger.debug(f'Temperature entry saved: {temperature_entry}')
-
         #load all temperatureReading values as floats from database into a list
         temperatures = [float(reading.temp) for reading in temperatureReading.objects.all()]
 
-        logger.debug(f'Temperatures: {temperatures}')
     return JsonResponse({'temperatures': temperatures})
 
 
