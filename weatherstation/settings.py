@@ -16,25 +16,23 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# import environ
+import environ
 
-# env = environ.Env()
+env = environ.Env()
 
-# environ.Env.read_env()
-
-
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$d6g6&cd^wktkonx7y&6k(-(jfhcj#ni+#jiefx5c9*(q3%)v1'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io', '.ngrok-free.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,33 +81,24 @@ WSGI_APPLICATION = 'weatherstation.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 #Render PostgreSQL database (production)
 
-# import dj_database_url
+import dj_database_url
 
-# DATABASES = {
-#     'default': dj_database_url.parse()
-# }
+DATABASES = {
 
- 
+    'default': dj_database_url.parse(env('DATABASE_URL'))
+    
+}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'kal_lake_data',
-#         'USER': 'kal_lake_data_user',
-#         'PASSWORD': 'QRi22V9rPN1pbs9vn2YQCbXYY08J4m9h',
-#         'HOST': 'dpg-cjif8i0cfp5c739pt9i0-a',
-#         'PORT': '5432',
-#     }
-# }
+
 
 
 # Password validation
