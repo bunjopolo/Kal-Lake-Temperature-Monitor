@@ -4,9 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.transaction import non_atomic_requests, atomic
 from django.views.decorators.http import require_POST
 from .models import temperatureReading
-import logging
 
-logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def webhook_handler(request):
