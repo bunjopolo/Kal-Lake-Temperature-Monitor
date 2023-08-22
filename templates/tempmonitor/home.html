@@ -29,6 +29,7 @@
             box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
             color: #fff;
             transition: width 0.3s ease;
+            height: 100vh;
         }
 
         #menu-header {
@@ -106,7 +107,7 @@
     </div>
     <script>    
             // Function to fetch data from the backend CHANGE THE VIEW LATER
-            async function fetchData() {
+        async function fetchData() {
             try {
                 const response = await fetch('data/'); // Replace with your API endpoint
                 const data = await response.json();

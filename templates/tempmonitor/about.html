@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Kal Lake Temperature</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            background-color: #f5f5f5;
+        }
+
+        #menu-bar {
+            width: 250px;
+            background-color: #3a3a3a;
+            padding: 20px;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            height: 100vh;
+        }
+
+        #menu-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #menu-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #menu-items li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ffffff;
+            transition: background-color 0.3s ease;
+        }
+
+        #menu-items li a {
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        #menu-items li:hover {
+            background-color: #34495e;
+        }
+
+        #menu-items li:hover a {
+            color: #00a6ff;
+        }
+
+        #about-container {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu-bar">
+        <div id="menu-header">
+            <h2>Menu</h2>
+        </div>
+        <ul id="menu-items">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+        </ul>
+    </div>
+
+    <div id="about-container">
+        <h1>About Kal Lake Temperature</h1>
+        <p>Welcome to the Kal Lake Temperature website! This site provides you with temperature data for Kalamalka Lake in Vernon BC, Canada. The charts on the homepage display the historical temperature trends and monthly average temperatures for the lake starting in August 2023.</p>
+        <p>The temperature data is collected from a remote sensor built with a Particle Boron cellular development board and stored in a PostgreSQL database. You can find the source code for this website on my  <a href="https://github.com/bunjopolo/Kal-Lake-Temperature-Monitor" target="_blank">GitHub Repository</a>.</p>
+        <p>For any inquiries or feedback, please contact me at <a href="mailto:eligarlick@gmail.com">eligarlick@gmail.com</a>.</p>
+    </div>
+</body>
+</html>

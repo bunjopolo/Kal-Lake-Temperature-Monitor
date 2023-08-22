@@ -58,6 +58,6 @@ def home(request):
 
 
 def about(request):
-    return HttpResponse('This will be the about page')
+    return render(request, 'tempmonitor/about.html')
 
 
