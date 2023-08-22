@@ -28,18 +28,22 @@ def temperature_data(request):
     temperatures = [float(reading.temp) for reading in temperatureReading.objects.all()]
     dates = [reading.time.strftime("%d/%m/%Y") for reading in temperatureReading.objects.all()]
 
-    avg = sum(temperatures)/len(temperatures)
-    avg = round(avg, 2)
+    try: 
+        avg = sum(temperatures)/len(temperatures)
+        avg = round(avg, 2)
 
-    monthly_avg = [] #list of average temperatures for each month
+        monthly_avg = [] #list of average temperatures for each month
 
-    #get average temperature for each month
-    for month in range(1, 13):
-        monthly_temperatures = [float(reading.temp) for reading in temperatureReading.objects.filter(time__month=month)]
-        if len(monthly_temperatures) > 0:
-            monthly_avg.append(round(sum(monthly_temperatures)/len(monthly_temperatures), 2))
-        else:
-            monthly_avg.append(0)
+        #get average temperature for each month
+        for month in range(1, 13):
+            monthly_temperatures = [float(reading.temp) for reading in temperatureReading.objects.filter(time__month=month)]
+            if len(monthly_temperatures) > 0:
+                monthly_avg.append(round(sum(monthly_temperatures)/len(monthly_temperatures), 2))
+            else:
+                monthly_avg.append(0)
+    except:
+        avg = 0
+        monthly_avg = [0] * 12
 
     return JsonResponse({'temperatures': temperatures, 'dates': dates, 'avg': avg, 'monthly_avg': monthly_avg})
     
