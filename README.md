@@ -5,3 +5,5 @@ As far as I know this is the only publically available data on the lake's temper
 
 Data is recorded with a Particle Boron cellular development board every 12 hours and transmited to the database.
 The sensor used is a Maxim Integrated DS18B20 1-wire programmable digital thermometer. 
+
+The web app is live at https://www.kallaketemperature.xyz/
