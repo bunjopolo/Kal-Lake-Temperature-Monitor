@@ -106,6 +106,8 @@
         </div>
     </div>
     <script>    
+
+    
             // Function to fetch data from the backend CHANGE THE VIEW LATER
         async function fetchData() {
             try {
@@ -136,6 +138,7 @@
                             data: temperatures,
                             borderColor: '#2980b9',
                             fill: false,
+                            cubicInterpolationMode: 'monotone',
                         }]
                     },
                     options: {
@@ -150,8 +153,6 @@
 
             if (data) {
                 const avg = data.monthly_avg;
-            
-
                 const ctx = document.getElementById('monthly-avg-chart').getContext('2d');
                 new Chart(ctx, {
                     type: 'bar',
