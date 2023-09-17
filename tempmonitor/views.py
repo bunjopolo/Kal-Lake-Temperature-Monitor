@@ -16,7 +16,10 @@ def webhook_handler(request):
         #save temperatureReading object
         temperature_entry = temperatureReading(temp=temperature)
         temperature_entry.save()
-    return None
+        #load all temperatureReading values as floats from database into a list
+        temperatures = [float(reading.temp) for reading in temperatureReading.objects.all()]
+
+    return JsonResponse({'temperatures': temperatures})
 
 
 def temperature_data(request):
@@ -42,8 +45,6 @@ def temperature_data(request):
     return JsonResponse({'dates': dates, 'daily_avg_temperatures': daily_avg_temperatures, 'overall_avg': overall_avg, 'monthly_avg': monthly_avg})
 
 
-
-    
 @csrf_exempt
 def home(request):
     temperatures = [float(reading.temp) for reading in temperatureReading.objects.all()]
@@ -53,7 +54,7 @@ def home(request):
 
     #code to render graph will go here eventually
 
-    return render(request, 'tempmonitor/newhome.html', {'temperatures': temperatures, 'dates': dates})
+    return render(request, 'tempmonitor/home.html', {'temperatures': temperatures, 'dates': dates})
 
 
 def about(request):
