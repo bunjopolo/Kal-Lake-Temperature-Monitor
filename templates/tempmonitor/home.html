@@ -213,55 +213,55 @@
 
 
         async function gauge_graph() {
-        // Set the temperature value to the latest value in the array
-        var data = await fetchData();
-        currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
-        
-        // round to 2 decimal places
-        currentTemperature = Math.round(currentTemperature * 10) / 10;
+            // Set the temperature value to the latest value in the array
+            var data = await fetchData();
+            currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
+            
+            // round to 2 decimal places
+            currentTemperature = Math.round(currentTemperature * 10) / 10;
 
-        // Get the canvas and its 2D context
-        var canvas = document.getElementById("temperature-gauge");
-        var context = canvas.getContext("2d");
+            // Get the canvas and its 2D context
+            var canvas = document.getElementById("temperature-gauge");
+            var context = canvas.getContext("2d");
 
-        // Draw the temperature gauge
-        function drawGauge(temperature) {
-        // Clear the canvas
-        context.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw the temperature gauge
+            function drawGauge(temperature) {
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw the gauge background
-        context.beginPath();
-        context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (1/6) * Math.PI);
-        context.lineWidth = 5;
-        context.strokeStyle = "#ddd";
-        context.stroke();
+            // Draw the gauge background
+            context.beginPath();
+            context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (1/6) * Math.PI);
+            context.lineWidth = 5;
+            context.strokeStyle = "#ddd";
+            context.stroke();
 
-        // Draw the gauge value with reversed color gradient
-        var gradient = context.createLinearGradient(0, 0, canvas.width, 0);
-        gradient.addColorStop(0, "blue");
-        gradient.addColorStop(1, "red");
+            // Draw the gauge value with reversed color gradient
+            var gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, "blue");
+            gradient.addColorStop(1, "red");
 
-        context.beginPath();
-        context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (temperature / 30) * Math.PI - (5/6) * Math.PI);
-        context.lineWidth = 5;
-        context.lineCap = "round";
-        context.strokeStyle = gradient;
-        context.stroke();
-        }
+            context.beginPath();
+            context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (temperature / 30) * Math.PI - (5/6) * Math.PI);
+            context.lineWidth = 5;
+            context.lineCap = "round";
+            context.strokeStyle = gradient;
+            context.stroke();
+            }
 
-        // Update the temperature value and redraw the gauge
-        function updateTemperature(value) {
-        document.getElementById("temperature-value").innerText = value + "°C";
-        drawGauge(value);
-        }
+            // Update the temperature value and redraw the gauge
+            function updateTemperature(value) {
+            document.getElementById("temperature-value").innerText = value + "°C";
+            drawGauge(value);
+            }
 
-        // Initial draw
-        drawGauge(currentTemperature);
+            // Initial draw
+            drawGauge(currentTemperature);
 
-        // Example: Update the temperature after a delay (replace this with your actual data)
-        setTimeout(function () {
-        updateTemperature(currentTemperature);
-        }, 20);
+            // Example: Update the temperature after a delay (replace this with your actual data)
+            setTimeout(function () {
+            updateTemperature(currentTemperature);
+            }, 20);
         };
 
 
