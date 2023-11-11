@@ -21,6 +21,15 @@
             text-align: center;
         }
 
+        h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
 
         #menu-bar {
             width: 250px;
@@ -82,17 +91,43 @@
             box-sizing: border-box;
         }
 
+        #gauge-container {
+            position: relative; 
+            width: 200px; /* Set the desired width */
+            height: 200px; /* Set the desired height */
+            margin: auto; /* Center horizontally */
+        }
+
+        #temperature-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
     <div id="menu-bar">
         <div id="menu-header">
-            <h2>Menu</h2>
+            <h1>Menu</h1>
         </div>
         <ul id="menu-items">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
         </ul>
+
+        <div id = 'gauge-header'> 
+            <h2>Latest Reading</h2>
+            <div id="gauge-container">
+                <canvas id="temperature-gauge" width="200" height="200"></canvas>
+                <div id="temperature-value">0°C</div>
+            </div>
+        </div>
+
+
     </div>
 
     <div id="charts-container">
@@ -176,9 +211,65 @@
 
         }
 
+
+        async function gauge_graph() {
+        // Set the temperature value to the latest value in the array
+        var data = await fetchData();
+        currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
+        
+        // round to 2 decimal places
+        currentTemperature = Math.round(currentTemperature * 10) / 10;
+
+        // Get the canvas and its 2D context
+        var canvas = document.getElementById("temperature-gauge");
+        var context = canvas.getContext("2d");
+
+        // Draw the temperature gauge
+        function drawGauge(temperature) {
+        // Clear the canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the gauge background
+        context.beginPath();
+        context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (1/6) * Math.PI);
+        context.lineWidth = 5;
+        context.strokeStyle = "#ddd";
+        context.stroke();
+
+        // Draw the gauge value with reversed color gradient
+        var gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+        gradient.addColorStop(0, "blue");
+        gradient.addColorStop(1, "red");
+
+        context.beginPath();
+        context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (temperature / 30) * Math.PI - (5/6) * Math.PI);
+        context.lineWidth = 5;
+        context.lineCap = "round";
+        context.strokeStyle = gradient;
+        context.stroke();
+        }
+
+        // Update the temperature value and redraw the gauge
+        function updateTemperature(value) {
+        document.getElementById("temperature-value").innerText = value + "°C";
+        drawGauge(value);
+        }
+
+        // Initial draw
+        drawGauge(currentTemperature);
+
+        // Example: Update the temperature after a delay (replace this with your actual data)
+        setTimeout(function () {
+        updateTemperature(currentTemperature);
+        }, 20);
+        };
+
+
         // Call the function to create the graph when the page loads
+        document.addEventListener("DOMContentLoaded", gauge_graph);
         document.addEventListener('DOMContentLoaded', tempGraph);
         document.addEventListener('DOMContentLoaded', monthlyAvgGraph);
+
     </script>
 </body>
 </html>
