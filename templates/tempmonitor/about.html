@@ -65,6 +65,15 @@
             margin-bottom: 20px;
         }
 
+        h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         p {
             font-size: 18px;
             line-height: 1.5;
@@ -74,24 +83,77 @@
             color: #2980b9;
             text-decoration: none;
         }
+
+        #gauge-container {
+            position: relative; 
+            width: 200px; /* Set the desired width */
+            height: 200px; /* Set the desired height */
+            margin: auto; /* Center horizontally */
+        }
+
+        #temperature-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .support-button {
+            background-color: #2980b9;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
     <div id="menu-bar">
         <div id="menu-header">
-            <h2>Menu</h2>
+            <h1>Menu</h1>
         </div>
+
         <ul id="menu-items">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
         </ul>
+
+
+        <div id="support-button-container">
+            <form action="https://www.paypal.com/donate" method="post" target="_top">
+                <input type="hidden" name="business" value="PJXRHYBZ4CRSA" />
+                <input type="hidden" name="no_recurring" value="0" />
+                <input type="hidden" name="item_name" value="Any funds will go towards covering hosting fees and sensor maintenance!" />
+                <input type="hidden" name="currency_code" value="CAD" />
+                <div class="button-container">
+                    <button class="support-button">Support the app!</button>
+                </div>
+        </div>
     </div>
 
     <div id="about-container">
         <h1>About Kal Lake Temperature</h1>
-        <p>Welcome to the Kal Lake Temperature website! This site provides you with temperature data for Kalamalka Lake in Coldstream BC, Canada. The charts on the homepage display the temperature trends and monthly average temperatures for the lake starting in August 2023.</p>
-        <p>The temperature data is collected from a remote sensor built with a Particle Boron cellular development board that records temperatures twice daily. You can find the source code for this website on my  <a href="https://github.com/bunjopolo/Kal-Lake-Temperature-Monitor" target="_blank">GitHub Repository</a>.</p>
-        <p>For any inquiries or feedback, please contact me at <a href="mailto:eligarlick@gmail.com">eligarlick@gmail.com</a>.</p>
+        <p>Welcome to the Kal Lake Temperature website! I made this site as there is no public temperature data that i'm aware of for Kalamalka Lake in Coldstream BC, Canada. The charts on the homepage display the temperature trends and monthly average temperatures for the lake starting in August 2023.</p>
+        <p>The temperature data is collected from a remote sensor built with a Particle Boron cellular development board that records temperatures twice daily at the north end of the lake. You can find the source code for this website on my  <a href="https://github.com/bunjopolo/Kal-Lake-Temperature-Monitor" target="_blank">GitHub Repository</a>.</p>
+        <p>For any inquiries or feedback, please contact me at <a href="mailto:kallakeweatherstation@gmail.com">kallakeweatherstation@gmail.com</a>.</p>
+        <p>If you find this website useful and would like to support the app to help cover hosting and database fees to keep the server running you can contribute via the donation button in the menu bar!</p>
     </div>
 </body>
 </html>
