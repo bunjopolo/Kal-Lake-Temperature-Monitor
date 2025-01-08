@@ -152,6 +152,18 @@
             font-weight: bold;
         }
 
+        .centered-dropdown {
+        margin-top: 10px;
+        text-align: center;
+        }
+
+        .centered-dropdown select {
+            padding: 5px 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
 
 
     </style>
@@ -191,6 +203,14 @@
         <div id="temperature-chart-container">
             <h1>Kal Lake Temperature</h1>
             <canvas id="temperature-chart"></canvas>
+            <div class="centered-dropdown">
+                <select id="date-filter">
+                    <option value="all">All Time</option>
+                    <option value="week">Week</option>
+                    <option value="month" selected>Month</option>
+                    <option value="year">Year</option>
+                </select>
+            </div>
         </div>
         <div id="monthly-avg-chart-container">
             <h1>Monthly Average Temperature</h1>
@@ -200,7 +220,7 @@
     <script>    
 
     
-            // Function to fetch data from the backend
+        // Function to fetch data from the backend
         async function fetchData() {
             try {
                 const response = await fetch('data/');
@@ -212,22 +232,54 @@
             }
         }
 
-        // Function to create the temperature graph
+            // Function to create the temperature graph
         async function tempGraph() {
             const data = await fetchData();
 
             if (data) {
-                const dates = data.dates;
-                const temperatures = data.daily_avg_temperatures;
+                const allDates = data.dates;
+                const allTemperatures = data.daily_avg_temperatures;
 
+                // Function to filter data
+                function filterData(range) {
+                    const now = new Date();
+                    let filteredDates = [];
+                    let filteredTemps = [];
+
+                    switch (range) {
+                        case 'week':
+                            filteredDates = allDates.slice(-7);
+                            filteredTemps = allTemperatures.slice(-7);
+                            break;
+                        case 'month':
+                            filteredDates = allDates.slice(-30);
+                            filteredTemps = allTemperatures.slice(-30);
+                            break;
+                        case 'year':
+                            filteredDates = allDates.slice(-365);
+                            filteredTemps = allTemperatures.slice(-365);
+                            break;
+                        default:
+                            filteredDates = allDates;
+                            filteredTemps = allTemperatures;
+                            break;
+                    }
+
+                    return { filteredDates, filteredTemps };
+                }
+
+                // Default to monthly data
+                const { filteredDates, filteredTemps } = filterData('month');
+
+                // Initialize the chart
                 const ctx = document.getElementById('temperature-chart').getContext('2d');
-                new Chart(ctx, {
+                const chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: dates,
+                        labels: filteredDates,
                         datasets: [{
                             label: 'Temperature (C°)',
-                            data: temperatures,
+                            data: filteredTemps,
                             borderColor: '#2980b9',
                             fill: false,
                             cubicInterpolationMode: 'monotone',
@@ -237,8 +289,20 @@
                         // Customize chart options here
                     }
                 });
+
+                // Add event listener for dropdown
+                document.getElementById('date-filter').addEventListener('change', (event) => {
+                    const range = event.target.value;
+                    const { filteredDates, filteredTemps } = filterData(range);
+
+                    // Update chart data
+                    chart.data.labels = filteredDates;
+                    chart.data.datasets[0].data = filteredTemps;
+                    chart.update();
+                });
             }
         }
+
 
         async function monthlyAvgGraph() {
             const data = await fetchData();
