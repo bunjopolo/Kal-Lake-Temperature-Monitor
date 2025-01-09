@@ -206,7 +206,7 @@
             <div class="centered-dropdown">
                 <select id="date-filter">
                     <option value="all">All Time</option>
-                    <option value="week">Week</option>
+                    <option value="week"> </option>
                     <option value="month" selected>Month</option>
                     <option value="year">Year</option>
                 </select>
@@ -239,6 +239,7 @@
             if (data) {
                 const allDates = data.dates;
                 const allTemperatures = data.daily_avg_temperatures;
+                const roundedTemps = allTemperatures.map(temp => Math.round(temp * 100) / 100);
 
                 // Function to filter data into range
                 function filterData(range) {
@@ -249,19 +250,19 @@
                     switch (range) {
                         case 'week':
                             filteredDates = allDates.slice(-7);
-                            filteredTemps = allTemperatures.slice(-7);
+                            filteredTemps = roundedTemps.slice(-7);
                             break;
                         case 'month':
                             filteredDates = allDates.slice(-30);
-                            filteredTemps = allTemperatures.slice(-30);
+                            filteredTemps = roundedTemps.slice(-30);
                             break;
                         case 'year':
                             filteredDates = allDates.slice(-365);
-                            filteredTemps = allTemperatures.slice(-365);
+                            filteredTemps = roundedTemps.slice(-365);
                             break;
                         default:
                             filteredDates = allDates;
-                            filteredTemps = allTemperatures;
+                            filteredTemps = roundedTemps;
                             break;
                     }
 
