@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from .models import temperatureReading
 from django.db.models import Avg
 from django.db.models.functions import TruncDate
+from datetime import datetime
 
 
 @csrf_exempt
@@ -33,31 +34,62 @@ def temperature_data(request):
     # Calculate the overall average temperature
     overall_avg = round(sum(daily_avg_temperatures) / len(daily_avg_temperatures), 2)
 
-    # Calculate the monthly average temperatures
+    # Get current year
+    current_year = datetime.now().year
+
+    # Get all unique years in the data
+    years = sorted(set(entry['date'].year for entry in daily_avg_queryset))
+
+    # Calculate monthly averages for the current year
     monthly_avg = []
     for month in range(1, 13):
-        monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month]
+        monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month and entry['date'].year == current_year]
         if monthly_temperatures:
             monthly_avg.append(round(sum(monthly_temperatures) / len(monthly_temperatures), 2))
         else:
-            monthly_avg.append(0)
+            monthly_avg.append(None)
 
-    return JsonResponse({'dates': dates, 'daily_avg_temperatures': daily_avg_temperatures, 'overall_avg': overall_avg, 'monthly_avg': monthly_avg})
+    # Calculate monthly averages for each year
+    monthly_avg_by_year = {}
+    for year in years:
+        yearly_monthly_avg = []
+        for month in range(1, 13):
+            monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month and entry['date'].year == year]
+            if monthly_temperatures:
+                yearly_monthly_avg.append(round(sum(monthly_temperatures) / len(monthly_temperatures), 2))
+            else:
+                yearly_monthly_avg.append(None)
+        monthly_avg_by_year[str(year)] = yearly_monthly_avg
+
+    # Calculate historical monthly average (all years except current year)
+    previous_years = [year for year in years if year != current_year]
+    historical_monthly_avg = []
+    for month in range(1, 13):
+        monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month and entry['date'].year in previous_years]
+        if monthly_temperatures:
+            historical_monthly_avg.append(round(sum(monthly_temperatures) / len(monthly_temperatures), 2))
+        else:
+            historical_monthly_avg.append(None)
+
+    return JsonResponse({
+        'dates': dates,
+        'daily_avg_temperatures': daily_avg_temperatures,
+        'overall_avg': overall_avg,
+        'monthly_avg': monthly_avg,
+        'monthly_avg_by_year': monthly_avg_by_year,
+        'historical_monthly_avg': historical_monthly_avg,
+        'years': years,
+        'current_year': current_year
+    })
 
 
 @csrf_exempt
 def home(request):
     temperatures = [float(reading.temp) for reading in temperatureReading.objects.all()]
     dates = [reading.time for reading in temperatureReading.objects.all()]
-    #convert dates to strings
-    #dates = [date.strftime("%m/%d/%Y") for date in dates]
-
-    #code to render graph will go here eventually
 
     return render(request, 'tempmonitor/home.html', {'temperatures': temperatures, 'dates': dates})
 
 
 def about(request):
     return render(request, 'tempmonitor/about.html')
-
-
