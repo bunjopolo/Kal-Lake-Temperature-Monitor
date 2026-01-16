@@ -433,8 +433,8 @@
                 </div>
             </div>
             <div class="filter-container">
-                <label for="comparison-filter">Compare to:</label>
-                <select id="comparison-filter">
+                <label for="year-filter">Compare Year:</label>
+                <select id="year-filter">
                     <option value="none" selected>No Comparison</option>
                 </select>
             </div>
@@ -559,18 +559,19 @@
             const data = await fetchData();
 
             if (data) {
+                const currentYear = data.current_year;
                 const years = data.years;
                 const overallMonthlyAvg = data.overall_monthly_avg;
                 const monthlyAvgByYear = data.monthly_avg_by_year;
 
-                // Populate comparison dropdown with years
-                const comparisonSelect = document.getElementById('comparison-filter');
+                // Populate dropdown with all years
+                const yearSelect = document.getElementById('year-filter');
                 
                 years.forEach(year => {
                     const option = document.createElement('option');
                     option.value = year;
-                    option.textContent = year;
-                    comparisonSelect.appendChild(option);
+                    option.textContent = year === currentYear ? `${year} (Current)` : year;
+                    yearSelect.appendChild(option);
                 });
 
                 const ctx = document.getElementById('monthly-avg-chart').getContext('2d');
@@ -626,13 +627,13 @@
                     }
                 });
 
-                // Handle comparison dropdown change
-                comparisonSelect.addEventListener('change', (event) => {
-                    const value = event.target.value;
+                // Handle year dropdown change
+                yearSelect.addEventListener('change', (event) => {
+                    const selectedYear = event.target.value;
                     const legend = document.getElementById('monthly-chart-legend');
 
-                    if (value === 'none') {
-                        // Show only overall average
+                    if (selectedYear === 'none') {
+                        // Show only all time average
                         chart.data.datasets = [{
                             label: 'All Time Average',
                             data: overallMonthlyAvg,
@@ -644,12 +645,12 @@
                         }];
                         legend.classList.remove('visible');
                     } else {
-                        // Get comparison data for selected year
-                        const comparisonData = monthlyAvgByYear[value];
-                        const comparisonLabel = value;
+                        // Get data for selected year
+                        const yearData = monthlyAvgByYear[selectedYear];
+                        const yearLabel = selectedYear === String(currentYear) ? `${selectedYear} (Current)` : selectedYear;
 
                         // Update legend
-                        document.getElementById('legend-comparison').textContent = comparisonLabel;
+                        document.getElementById('legend-comparison').textContent = yearLabel;
                         legend.classList.add('visible');
 
                         // Update chart with both datasets
@@ -664,8 +665,8 @@
                                 hoverBackgroundColor: '#60a5fa',
                             },
                             {
-                                label: comparisonLabel,
-                                data: comparisonData,
+                                label: yearLabel,
+                                data: yearData,
                                 backgroundColor: 'rgba(100, 116, 139, 0.7)',
                                 borderColor: '#64748b',
                                 borderWidth: 0,
