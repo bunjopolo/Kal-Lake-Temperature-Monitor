@@ -280,10 +280,14 @@
 
         /* Chart Legend */
         .chart-legend {
-            display: flex;
+            display: none;
             justify-content: center;
             gap: 24px;
             margin-top: 16px;
+        }
+
+        .chart-legend.visible {
+            display: flex;
         }
 
         .legend-item {
@@ -300,7 +304,7 @@
             border-radius: 3px;
         }
 
-        .legend-color.current {
+        .legend-color.primary {
             background-color: #3b82f6;
         }
 
@@ -418,21 +422,20 @@
         <div class="chart-card" id="monthly-avg-chart-container">
             <h2>Monthly Averages</h2>
             <canvas id="monthly-avg-chart"></canvas>
-            <div class="chart-legend" id="monthly-chart-legend" style="display: none;">
+            <div class="chart-legend" id="monthly-chart-legend">
                 <div class="legend-item">
-                    <span class="legend-color current"></span>
-                    <span id="legend-current-year">Current Year</span>
+                    <span class="legend-color primary"></span>
+                    <span id="legend-primary">All Time Average</span>
                 </div>
                 <div class="legend-item">
                     <span class="legend-color comparison"></span>
-                    <span id="legend-comparison">Comparison</span>
+                    <span id="legend-comparison"></span>
                 </div>
             </div>
             <div class="filter-container">
                 <label for="comparison-filter">Compare to:</label>
                 <select id="comparison-filter">
-                    <option value="none">No Comparison</option>
-                    <!-- Options will be populated dynamically -->
+                    <option value="none" selected>No Comparison</option>
                 </select>
             </div>
         </div>
@@ -556,31 +559,19 @@
             const data = await fetchData();
 
             if (data) {
-                const currentYear = data.current_year;
                 const years = data.years;
-                const monthlyAvg = data.monthly_avg;
+                const overallMonthlyAvg = data.overall_monthly_avg;
                 const monthlyAvgByYear = data.monthly_avg_by_year;
-                const historicalMonthlyAvg = data.historical_monthly_avg;
 
-                // Populate comparison dropdown
+                // Populate comparison dropdown with years
                 const comparisonSelect = document.getElementById('comparison-filter');
                 
-                // Add historical average option
-                const historicalOption = document.createElement('option');
-                historicalOption.value = 'historical';
-                historicalOption.textContent = 'Historical Average';
-                comparisonSelect.appendChild(historicalOption);
-
-                // Add individual years (excluding current year)
-                years.filter(year => year !== currentYear).forEach(year => {
+                years.forEach(year => {
                     const option = document.createElement('option');
                     option.value = year;
                     option.textContent = year;
                     comparisonSelect.appendChild(option);
                 });
-
-                // Update legend current year label
-                document.getElementById('legend-current-year').textContent = currentYear;
 
                 const ctx = document.getElementById('monthly-avg-chart').getContext('2d');
                 const chart = new Chart(ctx, {
@@ -588,8 +579,8 @@
                     data: {
                         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                         datasets: [{
-                            label: currentYear,
-                            data: monthlyAvg,
+                            label: 'All Time Average',
+                            data: overallMonthlyAvg,
                             backgroundColor: 'rgba(59, 130, 246, 0.7)',
                             borderColor: '#3b82f6',
                             borderWidth: 0,
@@ -641,39 +632,31 @@
                     const legend = document.getElementById('monthly-chart-legend');
 
                     if (value === 'none') {
-                        // Remove comparison dataset
+                        // Show only overall average
                         chart.data.datasets = [{
-                            label: currentYear,
-                            data: monthlyAvg,
+                            label: 'All Time Average',
+                            data: overallMonthlyAvg,
                             backgroundColor: 'rgba(59, 130, 246, 0.7)',
                             borderColor: '#3b82f6',
                             borderWidth: 0,
                             borderRadius: 6,
                             hoverBackgroundColor: '#60a5fa',
                         }];
-                        legend.style.display = 'none';
+                        legend.classList.remove('visible');
                     } else {
-                        // Get comparison data
-                        let comparisonData;
-                        let comparisonLabel;
-
-                        if (value === 'historical') {
-                            comparisonData = historicalMonthlyAvg;
-                            comparisonLabel = 'Historical Avg';
-                        } else {
-                            comparisonData = monthlyAvgByYear[value];
-                            comparisonLabel = value;
-                        }
+                        // Get comparison data for selected year
+                        const comparisonData = monthlyAvgByYear[value];
+                        const comparisonLabel = value;
 
                         // Update legend
                         document.getElementById('legend-comparison').textContent = comparisonLabel;
-                        legend.style.display = 'flex';
+                        legend.classList.add('visible');
 
                         // Update chart with both datasets
                         chart.data.datasets = [
                             {
-                                label: String(currentYear),
-                                data: monthlyAvg,
+                                label: 'All Time Average',
+                                data: overallMonthlyAvg,
                                 backgroundColor: 'rgba(59, 130, 246, 0.7)',
                                 borderColor: '#3b82f6',
                                 borderWidth: 0,

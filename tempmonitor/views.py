@@ -40,14 +40,14 @@ def temperature_data(request):
     # Get all unique years in the data
     years = sorted(set(entry['date'].year for entry in daily_avg_queryset))
 
-    # Calculate monthly averages for the current year
-    monthly_avg = []
+    # Calculate overall monthly averages (ALL data combined - this is the default)
+    overall_monthly_avg = []
     for month in range(1, 13):
-        monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month and entry['date'].year == current_year]
+        monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month]
         if monthly_temperatures:
-            monthly_avg.append(round(sum(monthly_temperatures) / len(monthly_temperatures), 2))
+            overall_monthly_avg.append(round(sum(monthly_temperatures) / len(monthly_temperatures), 2))
         else:
-            monthly_avg.append(None)
+            overall_monthly_avg.append(None)
 
     # Calculate monthly averages for each year
     monthly_avg_by_year = {}
@@ -61,23 +61,12 @@ def temperature_data(request):
                 yearly_monthly_avg.append(None)
         monthly_avg_by_year[str(year)] = yearly_monthly_avg
 
-    # Calculate historical monthly average (all years except current year)
-    previous_years = [year for year in years if year != current_year]
-    historical_monthly_avg = []
-    for month in range(1, 13):
-        monthly_temperatures = [entry['avg_temp'] for entry in daily_avg_queryset if entry['date'].month == month and entry['date'].year in previous_years]
-        if monthly_temperatures:
-            historical_monthly_avg.append(round(sum(monthly_temperatures) / len(monthly_temperatures), 2))
-        else:
-            historical_monthly_avg.append(None)
-
     return JsonResponse({
         'dates': dates,
         'daily_avg_temperatures': daily_avg_temperatures,
         'overall_avg': overall_avg,
-        'monthly_avg': monthly_avg,
+        'overall_monthly_avg': overall_monthly_avg,
         'monthly_avg_by_year': monthly_avg_by_year,
-        'historical_monthly_avg': historical_monthly_avg,
         'years': years,
         'current_year': current_year
     })
