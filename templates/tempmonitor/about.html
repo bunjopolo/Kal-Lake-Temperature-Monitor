@@ -1,170 +1,403 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY3L1KWE0G"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-YY3L1KWE0G');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YY3L1KWE0G');
     </script>
 
-    <title>About Kal Lake Temperature</title>
+    <title>About - Kal Lake Temperature</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <style>
-        body {
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #60a5fa;
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #1e293b;
+            --card-bg: #1e293b;
+            --body-bg: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            background-color: #f5f5f5;
+            background-color: var(--body-bg);
+            min-height: 100vh;
+            color: var(--text-primary);
         }
 
+        /* Sidebar Styles */
         #menu-bar {
-            width: 250px;
-            background-color: #3a3a3a;
-            padding: 20px;
-            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            background: linear-gradient(180deg, #1e293b 0%, var(--sidebar-bg) 100%);
+            padding: 24px;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
             height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
         }
 
-        #menu-header {
-            text-align: center;
-            margin-bottom: 20px;
+        #menu-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .menu-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
         }
 
         #menu-items {
             list-style: none;
-            padding: 0;
+            margin-bottom: 32px;
         }
 
         #menu-items li {
-            padding: 10px 0;
-            border-bottom: 1px solid #ffffff;
-            transition: background-color 0.3s ease;
+            margin-bottom: 4px;
         }
 
         #menu-items li a {
+            display: block;
+            padding: 12px 16px;
             text-decoration: none;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        #menu-items li a:hover,
+        #menu-items li a.active {
+            background-color: var(--sidebar-hover);
             color: #fff;
-            transition: color 0.3s ease;
+            transform: translateX(4px);
         }
 
-        #menu-items li:hover {
-            background-color: #34495e;
+        #menu-items li a.active {
+            background-color: var(--primary-color);
         }
 
-        #menu-items li:hover a {
-            color: #00a6ff;
-        }
-
-        #about-container {
-            flex: 1;
-            text-align: center;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 0 auto;
-            border-radius: 5px;
-        }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            margin: 0;
-            padding: 0;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        p {
-            font-size: 18px;
-            line-height: 1.5;
-        }
-
-        a {
-            color: #2980b9;
-            text-decoration: none;
-        }
-
-        #gauge-container {
-            position: relative; 
-            width: 200px; /* Set the desired width */
-            height: 200px; /* Set the desired height */
-            margin: auto; /* Center horizontally */
-        }
-
-        #temperature-value {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
+        /* Support Button */
         .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 20px;
-            box-sizing: border-box;
+            margin-top: auto;
+            padding-top: 24px;
         }
 
         .support-button {
-            background-color: #2980b9;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2563eb 100%);
             border: none;
             color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            margin-bottom: 20px;
+            padding: 14px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+        }
+
+        .support-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        /* Main Content */
+        #about-container {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px;
+            max-width: 900px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Content Cards */
+        .about-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            transition: box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .about-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-card h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-card h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .about-card p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .about-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-card a {
+            color: var(--primary-hover);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .about-card a:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+        .about-card strong {
+            color: var(--text-primary);
+        }
+
+        /* Contact Card */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .contact-link:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Support Card */
+        .support-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2563eb 100%);
+            border: none;
+            color: #fff;
+        }
+
+        .support-card h2 {
+            color: #fff;
+        }
+
+        .support-card h2::before {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .support-card p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .support-card .highlight {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .support-card .highlight-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .support-card .highlight-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        /* Location Badge */
+        .location-badge {
+            display: inline-block;
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
             border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            #menu-bar {
+                width: 240px;
+            }
+            #about-container {
+                margin-left: 240px;
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #menu-bar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 16px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            #about-container {
+                margin-left: 0;
+                padding: 16px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            .about-card {
+                padding: 24px;
+            }
+            .contact-links {
+                flex-direction: column;
+            }
+            .contact-link {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="menu-bar">
+    <nav id="menu-bar">
         <div id="menu-header">
-            <h1>Menu</h1>
+            <h1>Kal Lake</h1>
+            <p class="menu-subtitle">Temperature Monitor</p>
         </div>
 
         <ul id="menu-items">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'home' %}">Dashboard</a></li>
+            <li><a href="{% url 'about' %}" class="active">About</a></li>
         </ul>
 
-
-        <div id="support-button-container">
+        <div class="button-container">
             <form action="https://www.paypal.com/donate" method="post" target="_top">
                 <input type="hidden" name="business" value="PJXRHYBZ4CRSA" />
                 <input type="hidden" name="no_recurring" value="0" />
                 <input type="hidden" name="item_name" value="Any funds will go towards covering hosting fees and sensor maintenance!" />
                 <input type="hidden" name="currency_code" value="CAD" />
-                <div class="button-container">
-                    <button class="support-button">Support the app!</button>
-                </div>
+                <button type="submit" class="support-button">Support This Project</button>
+            </form>
         </div>
-    </div>
+    </nav>
 
-    <div id="about-container">
-        <h1>About Kal Lake Temperature</h1>
-        <p>Welcome to the Kal Lake Temperature website! There is no public temperature data that I'm aware of for Kalamalka Lake in Coldstream BC, Canada so I made this site to provide that information for cold water swimmers and anyone else that is interested. The charts on the homepage display the temperature trends and monthly average temperatures for the lake starting in August 2023.</p>
-        <p>The temperature data is collected from a remote sensor built with a Particle Boron cellular development board that records temperatures twice daily at the north end of the lake. You can find the source code for this website on my  <a href="https://github.com/bunjopolo/Kal-Lake-Temperature-Monitor" target="_blank">GitHub Repository</a>.</p>
-        <p>For any inquiries or feedback, please contact me at <a href="mailto:kallakeweatherstation@gmail.com">kallakeweatherstation@gmail.com</a>.</p>
-        <p>The server and database costs about $20 per month. If you find this website useful and would like to support the app to help cover hosting and database fees to keep the server running, you can contribute via the donation button in the menu bar!</p>
-    </div>
+    <main id="about-container">
+        <div class="page-header">
+            <h1>About This Project</h1>
+            <p>Learn more about Kal Lake Temperature Monitor</p>
+        </div>
+
+        <div class="about-card">
+            <h2>Welcome</h2>
+            <span class="location-badge">Kalamalka Lake, Coldstream BC, Canada</span>
+            <p>Welcome to the Kal Lake Temperature website! There is no public temperature data that I'm aware of for Kalamalka Lake, so I created this site to provide that information for cold water swimmers and anyone else interested in tracking the lake's temperature.</p>
+            <p>The charts on the homepage display temperature trends and monthly averages starting from August 2023.</p>
+        </div>
+
+        <div class="about-card">
+            <h2>How It Works</h2>
+            <p>The temperature data is collected from a custom-built remote sensor using a <strong>Particle Boron cellular development board</strong>. The sensor records water temperatures twice daily at the north end of the lake and transmits the data to our servers via cellular connection.</p>
+            <p>The data is then processed and displayed on the dashboard in real-time, allowing you to view current conditions as well as historical trends over time.</p>
+        </div>
+
+        <div class="about-card">
+            <h2>Get In Touch</h2>
+            <p>Have questions, feedback, or suggestions? I'd love to hear from you! Feel free to reach out via email or check out the source code on GitHub.</p>
+            
+            <div class="contact-links">
+                <a href="mailto:kallakeweatherstation@gmail.com" class="contact-link">
+                    kallakeweatherstation@gmail.com
+                </a>
+                <a href="https://github.com/bunjopolo/Kal-Lake-Temperature-Monitor" target="_blank" class="contact-link">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+
+        <div class="about-card support-card">
+            <h2>Support This Project</h2>
+            <p>Running the server and database costs money each month. If you find this website useful and would like to help keep it running, any contribution is greatly appreciated!</p>
+            <p>All donations go directly towards hosting fees and sensor maintenance to ensure the data keeps flowing.</p>
+            
+            <div class="highlight">
+                <div class="highlight-text">~$20 CAD</div>
+                <div class="highlight-label">Monthly server and database costs</div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
