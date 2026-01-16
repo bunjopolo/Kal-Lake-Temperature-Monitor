@@ -179,6 +179,30 @@
             color: var(--text-primary);
         }
 
+        /* Mobile Temperature Banner */
+        .mobile-temp-banner {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-temp-banner .temp-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mobile-temp-banner .temp-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
         /* Chart Cards */
         .chart-card {
             background-color: var(--card-bg);
@@ -279,6 +303,9 @@
             .page-header h1 {
                 font-size: 1.5rem;
             }
+            .mobile-temp-banner {
+                display: flex;
+            }
         }
     </style>
 </head>
@@ -295,7 +322,7 @@
         </ul>
 
         <div id="gauge-header">
-            <h2>Current Temperature</h2>
+            <h2>Latest Reading</h2>
             <div id="gauge-container">
                 <canvas id="temperature-gauge" width="160" height="160"></canvas>
                 <div id="temperature-value"></div>
@@ -316,6 +343,11 @@
     <main id="charts-container">
         <div class="page-header">
             <h1>Temperature Dashboard</h1>
+        </div>
+
+        <div class="mobile-temp-banner">
+            <span class="temp-label">Latest Reading</span>
+            <span class="temp-value" id="mobile-temp-value">--°C</span>
         </div>
 
         <div class="chart-card" id="temperature-chart-container">
@@ -496,8 +528,11 @@
 
         async function gauge_graph() {
             var data = await fetchData();
-            currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
+            var currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
             currentTemperature = Math.round(currentTemperature * 10) / 10;
+
+            // Update mobile temperature banner
+            document.getElementById('mobile-temp-value').innerText = currentTemperature + '°C';
 
             var canvas = document.getElementById("temperature-gauge");
             var context = canvas.getContext("2d");
