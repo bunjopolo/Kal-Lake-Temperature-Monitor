@@ -335,14 +335,21 @@
 <body>
     <nav id="menu-bar">
         <div id="menu-header">
-            <h1>Kal Lake</h1>
-            <p class="menu-subtitle">Temperature Monitor</p>
+            <h1>Kal Lake Temperature Monitor</h1>
         </div>
 
         <ul id="menu-items">
             <li><a href="{% url 'home' %}">Dashboard</a></li>
-            <li><a href="{% url 'about' %}" class="active">About</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
         </ul>
+
+        <div id="gauge-header">
+            <h2>Current Temperature</h2>
+            <div id="gauge-container">
+                <canvas id="temperature-gauge" width="160" height="160"></canvas>
+                <div id="temperature-value"></div>
+            </div>
+        </div>
 
         <div class="button-container">
             <form action="https://www.paypal.com/donate" method="post" target="_top">
@@ -354,6 +361,7 @@
             </form>
         </div>
     </nav>
+
 
     <main id="about-container">
         <div class="page-header">
