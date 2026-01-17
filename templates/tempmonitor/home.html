@@ -140,22 +140,27 @@
             border-right: 1px solid var(--border-color);
         }
 
+        #menu-header {
+            padding-bottom: 20px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
         #menu-header h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: #fff;
         }
 
         .menu-subtitle {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin-bottom: 24px;
         }
 
         #menu-items {
             list-style: none;
-            margin-bottom: 32px;
+            padding: 8px 0;
         }
 
         #menu-items li {
@@ -184,7 +189,8 @@
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             padding: 20px;
-            margin-bottom: 24px;
+            margin-top: auto;
+            margin-bottom: 16px;
         }
 
         #gauge-header h2 {
@@ -216,8 +222,7 @@
 
         /* Support Button */
         .button-container {
-            margin-top: auto;
-            padding-top: 24px;
+            padding-top: 0;
         }
 
         .support-button {
@@ -252,12 +257,32 @@
 
         .page-header {
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-header-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2563eb 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
         }
 
         .page-header h1 {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--text-primary);
+        }
+
+        .page-header-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
         }
 
         /* Mobile Temperature Banner */
@@ -419,12 +444,36 @@
             #gauge-header {
                 display: none;
             }
+            #menu-header {
+                border-bottom: none;
+                padding-bottom: 12px;
+                margin-bottom: 0;
+            }
+            #menu-items {
+                display: flex;
+                gap: 8px;
+                padding: 8px 0;
+            }
+            #menu-items li {
+                margin-bottom: 0;
+            }
+            #menu-items li a {
+                padding: 10px 16px;
+            }
+            .button-container {
+                margin-top: 12px;
+            }
             #charts-container {
                 margin-left: 0;
                 padding: 16px;
             }
             .page-header h1 {
                 font-size: 1.5rem;
+            }
+            .page-header-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
             }
             .mobile-temp-banner {
                 display: flex;
@@ -461,8 +510,7 @@
 <body>
     <nav id="menu-bar">
         <div id="menu-header">
-            <h1>Kal Lake</h1>
-            <p class="menu-subtitle">Temperature Monitor</p>
+            <h1>Kal Lake Temperature Monitor</h1>
         </div>
 
         <ul id="menu-items">
@@ -502,7 +550,9 @@
         </div>
 
         <div class="page-header">
-            <h1>Temperature Dashboard</h1>
+            <div>
+                <h1>Temperature Dashboard</h1>
+            </div>
         </div>
 
         <div class="mobile-temp-banner">
@@ -556,21 +606,17 @@
             setTimeout(() => {
                 banner.style.display = 'none';
             }, 300);
-            // Store in localStorage so it stays hidden for this session
             localStorage.setItem('thankYouBannerClosed', 'true');
         }
 
-        // Check if banner was previously closed
         document.addEventListener('DOMContentLoaded', function() {
             if (localStorage.getItem('thankYouBannerClosed') === 'true') {
                 document.getElementById('thankYouBanner').style.display = 'none';
             }
         });
 
-        // Global variable to store fetched data
         let cachedData = null;
 
-        // Function to fetch data from the backend
         async function fetchData() {
             if (cachedData) {
                 return cachedData;
@@ -586,7 +632,6 @@
             }
         }
 
-        // Function to create the temperature graph
         async function tempGraph() {
             const data = await fetchData();
 
@@ -689,7 +734,6 @@
                 const overallMonthlyAvg = data.overall_monthly_avg;
                 const monthlyAvgByYear = data.monthly_avg_by_year;
 
-                // Populate dropdown with all years
                 const yearSelect = document.getElementById('year-filter');
                 
                 years.forEach(year => {
@@ -752,13 +796,11 @@
                     }
                 });
 
-                // Handle year dropdown change
                 yearSelect.addEventListener('change', (event) => {
                     const selectedYear = event.target.value;
                     const legend = document.getElementById('monthly-chart-legend');
 
                     if (selectedYear === 'none') {
-                        // Show only all time average
                         chart.data.datasets = [{
                             label: 'All Time Average',
                             data: overallMonthlyAvg,
@@ -770,15 +812,12 @@
                         }];
                         legend.classList.remove('visible');
                     } else {
-                        // Get data for selected year
                         const yearData = monthlyAvgByYear[selectedYear];
                         const yearLabel = selectedYear === String(currentYear) ? `${selectedYear} (Current)` : selectedYear;
 
-                        // Update legend
                         document.getElementById('legend-comparison').textContent = yearLabel;
                         legend.classList.add('visible');
 
-                        // Update chart with both datasets
                         chart.data.datasets = [
                             {
                                 label: 'All Time Average',
@@ -811,7 +850,6 @@
             var currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
             currentTemperature = Math.round(currentTemperature * 10) / 10;
 
-            // Update mobile temperature banner
             document.getElementById('mobile-temp-value').innerText = currentTemperature + '°C';
 
             var canvas = document.getElementById("temperature-gauge");
