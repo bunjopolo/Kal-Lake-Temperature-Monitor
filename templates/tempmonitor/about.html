@@ -58,22 +58,22 @@
             border-right: 1px solid var(--border-color);
         }
 
+        #menu-header {
+            padding-bottom: 20px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
         #menu-header h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: #fff;
-        }
-
-        .menu-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
         }
 
         #menu-items {
             list-style: none;
-            margin-bottom: 32px;
+            padding: 8px 0;
         }
 
         #menu-items li {
@@ -90,8 +90,7 @@
             font-weight: 500;
         }
 
-        #menu-items li a:hover,
-        #menu-items li a.active {
+        #menu-items li a:hover {
             background-color: var(--sidebar-hover);
             color: #fff;
             transform: translateX(4px);
@@ -99,12 +98,49 @@
 
         #menu-items li a.active {
             background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Gauge Section */
+        #gauge-header {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: auto;
+            margin-bottom: 16px;
+        }
+
+        #gauge-header h2 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        #gauge-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+
+        #temperature-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
         }
 
         /* Support Button */
         .button-container {
-            margin-top: auto;
-            padding-top: 24px;
+            padding-top: 0;
         }
 
         .support-button {
@@ -132,32 +168,28 @@
             flex: 1;
             margin-left: 280px;
             padding: 32px;
-            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 1000px;
         }
 
         .page-header {
-            margin-bottom: 32px;
-        }
-
-        .page-header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
             margin-bottom: 8px;
         }
 
-        .page-header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
         /* Content Cards */
         .about-card {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 32px;
+            padding: 24px;
             box-shadow: var(--shadow);
-            margin-bottom: 24px;
             transition: box-shadow 0.3s ease;
             border: 1px solid var(--border-color);
         }
@@ -211,6 +243,18 @@
             color: var(--text-primary);
         }
 
+        /* Location Badge */
+        .location-badge {
+            display: inline-block;
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
         /* Contact Card */
         .contact-links {
             display: flex;
@@ -245,7 +289,6 @@
         .support-card {
             background: linear-gradient(135deg, var(--primary-color) 0%, #2563eb 100%);
             border: none;
-            color: #fff;
         }
 
         .support-card h2 {
@@ -265,29 +308,19 @@
             padding: 16px 20px;
             border-radius: 8px;
             margin-top: 16px;
+            display: inline-block;
         }
 
         .support-card .highlight-text {
             font-size: 1.5rem;
             font-weight: 700;
+            color: #fff;
         }
 
         .support-card .highlight-label {
             font-size: 0.9rem;
-            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.85);
             margin-top: 4px;
-        }
-
-        /* Location Badge */
-        .location-badge {
-            display: inline-block;
-            background-color: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
         }
 
         /* Responsive Design */
@@ -313,6 +346,31 @@
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
             }
+            #gauge-header {
+                display: none;
+            }
+            #menu-header {
+                border-bottom: none;
+                padding-bottom: 12px;
+                margin-bottom: 0;
+            }
+            #menu-items {
+                display: flex;
+                gap: 8px;
+                padding: 8px 0;
+            }
+            #menu-items li {
+                margin-bottom: 0;
+            }
+            #menu-items li a {
+                padding: 10px 16px;
+            }
+            #menu-items li a.active {
+                transform: none;
+            }
+            .button-container {
+                margin-top: 12px;
+            }
             #about-container {
                 margin-left: 0;
                 padding: 16px;
@@ -321,7 +379,7 @@
                 font-size: 1.5rem;
             }
             .about-card {
-                padding: 24px;
+                padding: 20px;
             }
             .contact-links {
                 flex-direction: column;
@@ -340,14 +398,14 @@
 
         <ul id="menu-items">
             <li><a href="{% url 'home' %}">Dashboard</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'about' %}" class="active">About</a></li>
         </ul>
 
         <div id="gauge-header">
             <h2>Current Temperature</h2>
             <div id="gauge-container">
                 <canvas id="temperature-gauge" width="160" height="160"></canvas>
-                <div id="temperature-value"></div>
+                <div id="temperature-value">--°C</div>
             </div>
         </div>
 
@@ -362,18 +420,16 @@
         </div>
     </nav>
 
-
     <main id="about-container">
         <div class="page-header">
             <h1>About This Project</h1>
-            <p>Learn more about Kal Lake Temperature Monitor</p>
         </div>
 
         <div class="about-card">
             <h2>Welcome</h2>
             <span class="location-badge">Kalamalka Lake, Coldstream BC, Canada</span>
             <p>Welcome to the Kal Lake Temperature website! There is no public temperature data that I'm aware of for Kalamalka Lake, so I created this site to provide that information for cold water swimmers and anyone else interested in tracking the lake's temperature.</p>
-            <p>The charts on the homepage display temperature trends and monthly averages starting from August 2023.</p>
+            <p>The charts on the dashboard display temperature trends and monthly averages starting from August 2023.</p>
         </div>
 
         <div class="about-card">
@@ -407,5 +463,62 @@
             </div>
         </div>
     </main>
+
+    <script>
+        // Draw a static gauge for the about page
+        function drawStaticGauge() {
+            var canvas = document.getElementById("temperature-gauge");
+            var context = canvas.getContext("2d");
+
+            context.beginPath();
+            context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (1/6) * Math.PI);
+            context.lineWidth = 8;
+            context.strokeStyle = "rgba(148, 163, 184, 0.2)";
+            context.stroke();
+        }
+
+        // Fetch temperature data for the gauge
+        async function fetchTemperature() {
+            try {
+                const response = await fetch('{% url "home" %}data/');
+                const data = await response.json();
+                var currentTemperature = data.daily_avg_temperatures[data.daily_avg_temperatures.length - 1];
+                currentTemperature = Math.round(currentTemperature * 10) / 10;
+                
+                document.getElementById("temperature-value").innerText = currentTemperature + "°C";
+                
+                var canvas = document.getElementById("temperature-gauge");
+                var context = canvas.getContext("2d");
+                
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Background arc
+                context.beginPath();
+                context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (1/6) * Math.PI);
+                context.lineWidth = 8;
+                context.strokeStyle = "rgba(148, 163, 184, 0.2)";
+                context.stroke();
+                
+                // Temperature arc
+                var gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+                gradient.addColorStop(0, "#3b82f6");
+                gradient.addColorStop(1, "#ef4444");
+                
+                context.beginPath();
+                context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2 - 10, (5/6) * Math.PI, (currentTemperature / 30) * Math.PI - (5/6) * Math.PI);
+                context.lineWidth = 8;
+                context.lineCap = "round";
+                context.strokeStyle = gradient;
+                context.stroke();
+            } catch (error) {
+                console.error('Error fetching temperature:', error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            drawStaticGauge();
+            fetchTemperature();
+        });
+    </script>
 </body>
 </html>
