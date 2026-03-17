@@ -45,9 +45,9 @@
             color: var(--text-primary);
         }
 
-        /* Thank You Banner */
+        /* Maintenance Banner */
         .thank-you-banner {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
             border-radius: var(--border-radius);
             padding: 16px 24px;
             margin-bottom: 24px;
@@ -55,7 +55,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(248, 113, 113, 0.45);
             position: relative;
             overflow: hidden;
         }
@@ -539,11 +539,11 @@
 
     <main id="charts-container">
         <!-- Thank You Banner -->
-        <div class="thank-you-banner" id="thankYouBanner">
+        <div class="thank-you-banner" id="maintenanceBanner">
             <div class="thank-you-content">
                 <div class="thank-you-text">
-                    <span class="thank-you-title">Thank You for Your Support!</span>
-                    <span class="thank-you-message">A huge thanks to everyone who has donated recently. Your generosity helps keep this project running!</span>
+                    <span class="thank-you-title">Sensor Down for Maintenance</span>
+                    <span class="thank-you-message">The lake temperature sensor is currently down for maintenance and should be back online in a couple of days.</span>
                 </div>
             </div>
             <button class="close-banner" onclick="closeBanner()" aria-label="Close banner">×</button>
@@ -599,19 +599,19 @@
     <script>
         // Banner close functionality with localStorage to remember user preference
         function closeBanner() {
-            const banner = document.getElementById('thankYouBanner');
+            const banner = document.getElementById('maintenanceBanner');
             banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             banner.style.opacity = '0';
             banner.style.transform = 'translateY(-10px)';
             setTimeout(() => {
                 banner.style.display = 'none';
             }, 300);
-            localStorage.setItem('thankYouBannerClosed', 'true');
+            localStorage.setItem('maintenanceBannerClosed', 'true');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (localStorage.getItem('thankYouBannerClosed') === 'true') {
-                document.getElementById('thankYouBanner').style.display = 'none';
+            if (localStorage.getItem('maintenanceBannerClosed') === 'true') {
+                document.getElementById('maintenanceBanner').style.display = 'none';
             }
         });
 
